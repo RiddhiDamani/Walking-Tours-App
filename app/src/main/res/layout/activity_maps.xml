@@ -3,19 +3,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mapConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#006948"
     tools:context=".MapsActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/map_current_address"
+        android:layout_marginBottom="128dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,80 +24,60 @@
         android:id="@+id/map_current_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="610dp"
+        android:layout_marginTop="8dp"
         android:text="@string/show_current_address"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map" />
 
     <CheckBox
-        android:id="@+id/stp_checkbox"
-        android:layout_width="143dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:checked="true"
-        android:text="@string/show_travel_path_caption"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_current_address"
-        tools:ignore="TextContrastCheck" />
-
-    <CheckBox
-        android:id="@+id/sa_checkbox"
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:checked="true"
         android:text="@string/show_addresses_caption"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textColorLink="#00BCD4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map_current_address"
         tools:ignore="TextContrastCheck" />
 
     <CheckBox
-        android:id="@+id/stpth_checkbox"
+        android:id="@+id/checkBox2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:checked="true"
-        android:text="@string/show_tour_path_caption"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
-        app:layout_constraintStart_toEndOf="@+id/sg_checkbox"
-        app:layout_constraintTop_toBottomOf="@+id/stp_checkbox"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="TextContrastCheck" />
-
-    <CheckBox
-        android:id="@+id/sg_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="8dp"
         android:checked="true"
         android:text="@string/show_geofences_caption"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sa_checkbox"
+        app:layout_constraintStart_toStartOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox"
         tools:ignore="TextContrastCheck" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+    <CheckBox
+        android:id="@+id/checkBox3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="588dp" />
+        android:layout_marginStart="80dp"
+        android:checked="true"
+        android:text="@string/show_travel_path_caption"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+
+    <CheckBox
+        android:id="@+id/checkBox4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/show_tour_path_caption"
+        android:textColor="#B2DFDB"
+        app:layout_constraintStart_toStartOf="@+id/checkBox3"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox3"
+        tools:ignore="TextContrastCheck,TextContrastCheck" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,10 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.riddhidamani.walkingtourapp">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Custom app-based permission declaration used to limit receiver -->
+    <permission android:name="com.riddhidamani.walkingtourapp.PERMISSION" />
+
+    <!--
+       The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+       Google Maps Android API v2, but you must specify either coarse or fine
+       location permissions for the "MyLocation" functionality.
+     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
+
+    <!-- Include the custom receiver permission -->
+    <uses-permission android:name="com.riddhidamani.walkingtourapp.PERMISSION" />
 
     <application
         android:allowBackup="true"
@@ -40,7 +51,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".MapsActivity"
