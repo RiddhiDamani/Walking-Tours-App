@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WalkingTourApp</string>
+    <string name="app_name">Walking Tours</string>
     <string name="todo">TODO</string>
     <string name="title_activity_maps">Walking Tours</string>
     <string name="show_addresses_caption">Show Addresses</string>

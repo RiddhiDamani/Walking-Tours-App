@@ -298,7 +298,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             llHistoryPolyline = mMap.addPolyline(polylineOptions);
             llHistoryPolyline.setEndCap(new RoundCap());
             llHistoryPolyline.setWidth(20);
-            llHistoryPolyline.setColor(Color.BLUE);
+            llHistoryPolyline.setColor(Color.parseColor("#006948"));
 
             // set visibility base on check box
             if(travelPathVisibility) {
@@ -308,8 +308,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             float r = getRadius();
+            // Try for Extra Credit
             if (r > 0) {
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.walker_right);
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.walker_left);
                 Bitmap resized = Bitmap.createScaledBitmap(icon, (int) r, (int) r, false);
                 BitmapDescriptor iconBitmap = BitmapDescriptorFactory.fromBitmap(resized);
 
@@ -363,6 +364,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // ------ VISUALIZATION CONTROLS START ----------------
+
     // Maps Checkbox1 - show address details
     public void showAddressDetails(View view) {
         CheckBox checkBox = (CheckBox) view;
@@ -407,6 +410,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // ------ VISUALIZATION CONTROLS END ----------------
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -424,5 +429,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onStop();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.removeUpdates(locationListener);
     }
 }

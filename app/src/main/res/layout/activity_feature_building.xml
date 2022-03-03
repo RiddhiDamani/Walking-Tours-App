@@ -53,7 +53,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="#A6D5CF"
-        android:gravity="bottom"
+        android:gravity="start"
         android:padding="8dp"
         android:scrollbars="vertical"
         android:text="TextView"

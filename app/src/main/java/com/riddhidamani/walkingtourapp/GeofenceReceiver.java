@@ -41,8 +41,7 @@ public class GeofenceReceiver extends BroadcastReceiver {
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
         // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
             // Get the geofences that were triggered. A single event can trigger
             // multiple geofences.
@@ -55,7 +54,7 @@ public class GeofenceReceiver extends BroadcastReceiver {
             }
         } else {
             // Log the error.
-            Log.d(TAG, "onReceive: NOT ENTER OR EXIT");
+            Log.d(TAG, "onReceive: NOT ENTER");
         }
     }
 
@@ -90,11 +89,11 @@ public class GeofenceReceiver extends BroadcastReceiver {
 
         PendingIntent pi = PendingIntent.getActivity(
                 context.getApplicationContext(), 0, resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Notification notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setContentIntent(pi)
-                .setSmallIcon(R.drawable.walker_right)
+                .setSmallIcon(R.drawable.fence_notif)
                 .setContentTitle(fenceData.getId() + " (Tap to See Details)") // Bold title
                 .setSubText(fenceData.getId()) // small text at top left
                 .setContentText(fenceData.getAddress()) // Detail info

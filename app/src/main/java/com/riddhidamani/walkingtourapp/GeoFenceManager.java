@@ -37,7 +37,6 @@ public class GeoFenceManager {
     private final ArrayList<Circle> circles = new ArrayList<>();
     private final List<PatternItem> pattern = Collections.singletonList(new Dot());
     private static final ArrayList<GeoFenceData> fenceList = new ArrayList<>();
-
     private ArrayList<LatLng> tourPath;
 
     // hash map
@@ -69,8 +68,8 @@ public class GeoFenceManager {
 
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences().
-        geofencePendingIntent = PendingIntent.getBroadcast(mapsActivity, 0, intent, PendingIntent.
-                FLAG_UPDATE_CURRENT);
+        geofencePendingIntent = PendingIntent.getBroadcast(mapsActivity, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
     }
 
@@ -130,6 +129,7 @@ public class GeoFenceManager {
             drawFence(fd);
         }
     }
+
     private void drawFence(GeoFenceData fd) {
 
         int line = Color.parseColor(fd.getFenceColor());
@@ -153,6 +153,5 @@ public class GeoFenceManager {
             c.remove();
         circles.clear();
     }
-
 
 }

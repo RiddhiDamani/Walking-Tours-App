@@ -50,9 +50,7 @@ public class FeatureBuildingActivity extends AppCompatActivity {
             binding.buildingDescription.setText(fenceData.getDescription());
             loadImagePicasso(binding.imageView, fenceData.getImageURL());
         }
-
         binding.buildingDescription.setMovementMethod(new ScrollingMovementMethod());
-
     }
 
     private void loadImagePicasso(ImageView imageView, String imageURL){
