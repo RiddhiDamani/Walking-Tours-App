@@ -4,17 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,7 +25,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,19 +33,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
 import com.riddhidamani.walkingtourapp.databinding.ActivityMapsBinding;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -57,9 +49,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final String TAG = getClass().getSimpleName();
     private static final int LOCATION_REQUEST_CODE = 111;
     private static final int BACKGROUND_LOCATION_REQUEST = 333;
-    private static final float INIT_ZOOM = 17.0f;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+
     // Location Stuff
     private static LocationManager locationManager;
     private static LocationListener locationListener;
@@ -73,15 +65,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean zooming = false;
     private float oldZoom ;
     private final float zoomDefault = 16.0f;
+
     // Geofencing Stuff
     private GeoFenceManager geoFenceManager;
     private Geocoder geocoder;
     public static int screen_height;
     public static int screen_width;
 
+    // Man Marker
     private Marker manMarker;
 
-    private final List<PatternItem> pattern = Collections.singletonList(new Dot());
+    // Font
+    private Typeface textFont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +87,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getScreenDimensions();
         geocoder = new Geocoder(this);
 
+        textFont = Typeface.createFromAsset(getAssets(), "fonts/Acme-Regular.ttf");
+
+        binding.mapCurrentAddress.setTypeface(textFont);
+        binding.showAddressCb.setTypeface(textFont);
+        binding.showGeofenceCb.setTypeface(textFont);
+        binding.showTourPathCb.setTypeface(textFont);
+        binding.showTravelPathCb.setTypeface(textFont);
+
         setupMap();
+
+        hideSystemUI();
+    }
+
+    private void hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility (
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION );
+                        // Keeping the status bar intact for notification purposes!
+                        //View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
     private void getScreenDimensions() {
@@ -101,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         screen_height = displayMetrics.heightPixels;
         screen_width = displayMetrics.widthPixels;
     }
+
 
     // Map stuff
     private void setupMap() {
@@ -415,11 +439,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
+        hideSystemUI();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        hideSystemUI();
         if (checkAppPermission() && locationManager != null && locationListener != null)
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
     }
