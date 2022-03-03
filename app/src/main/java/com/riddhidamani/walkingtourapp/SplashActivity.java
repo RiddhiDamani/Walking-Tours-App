@@ -45,11 +45,13 @@ public class SplashActivity extends AppCompatActivity {
         setTitle("Walking Tours");
 
         progressBar = findViewById(R.id.progress_bar);
+        progressBar.getProgress();
 
         // Possibly check perm's here
         // Possibly load required resources here
         checkLocationAccuracy();
         determineLocation();
+
     }
 
     private void checkLocationAccuracy() {
@@ -84,7 +86,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void determineLocation() {
-        if (checkPermission()) {
+        if (checkAppPermission()) {
             Log.d(TAG, "determineLocation: Let's Jump to MapsActivity");
             // Handler is used to execute something in the future
             new Handler().postDelayed(() -> {
@@ -102,7 +104,7 @@ public class SplashActivity extends AppCompatActivity {
     /////////////////////////////
     // Perm stuff!
     /////////////////////////////
-    private boolean checkPermission() {
+    private boolean checkAppPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -110,7 +112,6 @@ public class SplashActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
             return false;
         }
-
         return true;
     }
 
@@ -126,6 +127,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getBackgroundLocPerm();
                 } else {
+                    exitWTApp();
                     Toast.makeText(this, "Location Permission not Granted", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -157,27 +159,39 @@ public class SplashActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Allow Walking Tours to access the background location?");
+            builder.setMessage("This app may want to access the your location all the time, even when you're not using the app.");
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},
                     BACKGROUND_LOCATION_REQUEST);
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    exitWTApp();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         } else {
             Toast.makeText(this, "ALREADY HAS BACKGROUND LOC PERMS", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void exitApp() {
+    private void exitWTApp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("App Cannot Run Without Permissions");
+        builder.setTitle("Walking Tour App Cannot Run Without Permissions");
         builder.setMessage("This app cannot be used without fine location access and background Location access. \n\n" +
                 "Click ok to exit the app");
-
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
