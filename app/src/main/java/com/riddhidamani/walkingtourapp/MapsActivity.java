@@ -295,10 +295,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
             Address address = addresses.get(0);
             binding.mapCurrentAddress.setText(address.getAddressLine(0));
-
         } catch (IOException e) {
             e.printStackTrace();
             binding.mapCurrentAddress.setText("");
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         if (llHistoryPolyline != null) {
@@ -332,7 +332,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             float r = getRadius();
-            // Try for Extra Credit
             if (r > 0) {
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.walker_left);
                 Bitmap resized = Bitmap.createScaledBitmap(icon, (int) r, (int) r, false);
@@ -350,6 +349,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 manMarker = mMap.addMarker(options);
             }
         }
+
         if (!zooming)
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
