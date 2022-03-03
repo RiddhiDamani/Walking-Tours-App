@@ -11,4 +11,4 @@
    
 ## Video Demo: 
 
-<img src="./app/assets/walking_tour.gif" width="400" height="600"/>
+<img src="./app/res/walking_tour.gif" width="400" height="600"/>
