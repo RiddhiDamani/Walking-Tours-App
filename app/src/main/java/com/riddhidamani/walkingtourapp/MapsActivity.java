@@ -460,7 +460,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(locationListener);
     }
 }
